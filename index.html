@@ -184,7 +184,7 @@
               <span class="post-meta-item-text">发表于</span>
               
 
-              <time title="创建时间：2020-03-08 01:39:11 / 修改时间：02:32:45" itemprop="dateCreated datePublished" datetime="2020-03-08T01:39:11+08:00">2020-03-08</time>
+              <time title="创建时间：2020-03-08 01:39:11 / 修改时间：02:36:50" itemprop="dateCreated datePublished" datetime="2020-03-08T01:39:11+08:00">2020-03-08</time>
             </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -259,8 +259,13 @@
 ![](Pytorch的复现性/loss_vis_2.png)
 
 <center>两组Loss的差值</center>
+可见随着训练的进行，结果难以复现，但最终mAP差异保持在1%左右即可。
 
-<p>可见随着训练的进行，结果难以复现，但最终mAP差异保持在1%左右即可。</p>
+<hr>
+<p><em>Ref：</em></p>
+<p>PyTorch中模型的可复现性 - 知乎<br><a href="https://zhuanlan.zhihu.com/p/109166845" target="_blank" rel="noopener">https://zhuanlan.zhihu.com/p/109166845</a></p>
+<p>Deterministic Pytorch： pytorch如何保证可重复性 - 知乎<br><a href="https://zhuanlan.zhihu.com/p/81039955" target="_blank" rel="noopener">https://zhuanlan.zhihu.com/p/81039955</a></p>
+<p>Set All Seed But Result Is Non Deterministic - PyTorch Forums<br><a href="https://discuss.pytorch.org/t/set-all-seed-but-result-is-non-deterministic/27494" target="_blank" rel="noopener">https://discuss.pytorch.org/t/set-all-seed-but-result-is-non-deterministic/27494</a></p>
 
       
     </div>
