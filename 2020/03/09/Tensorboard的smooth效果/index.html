@@ -20,27 +20,34 @@
     var CONFIG = {"hostname":"yoursite.com","root":"/","scheme":"Pisces","version":"7.7.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
   </script>
 
-  <meta property="og:type" content="website">
-<meta property="og:title" content="花落闲谈">
-<meta property="og:url" content="http://yoursite.com/index.html">
+  <meta name="description" content="在TensorFlow的可视化工具Tensorboard中，有一个相当好用的选项：设置曲线的smooth参数。我们可以通过增大这个参数的设置，使得原本波动起伏很大的曲线变得平滑，从而得到更加清晰的变化趋势。 虽然Tensorboard提供了数据下载的接口（csv、json格式），但是只针对于原始数据，因此在进行绘图时有必要实现跟Tensorboard一样的平滑设置。参照Tensorboard中使用">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Tensorboard的smooth效果">
+<meta property="og:url" content="http://yoursite.com/2020/03/09/Tensorboard%E7%9A%84smooth%E6%95%88%E6%9E%9C/index.html">
 <meta property="og:site_name" content="花落闲谈">
+<meta property="og:description" content="在TensorFlow的可视化工具Tensorboard中，有一个相当好用的选项：设置曲线的smooth参数。我们可以通过增大这个参数的设置，使得原本波动起伏很大的曲线变得平滑，从而得到更加清晰的变化趋势。 虽然Tensorboard提供了数据下载的接口（csv、json格式），但是只针对于原始数据，因此在进行绘图时有必要实现跟Tensorboard一样的平滑设置。参照Tensorboard中使用">
 <meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://yoursite.com/images/smooth_test.png">
+<meta property="article:published_time" content="2020-03-09T14:56:04.000Z">
+<meta property="article:modified_time" content="2020-03-09T15:18:25.028Z">
 <meta property="article:author" content="chengc">
+<meta property="article:tag" content="Tensorboard, smooth">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://yoursite.com/images/smooth_test.png">
 
-<link rel="canonical" href="http://yoursite.com/">
+<link rel="canonical" href="http://yoursite.com/2020/03/09/Tensorboard%E7%9A%84smooth%E6%95%88%E6%9E%9C/">
 
 
 <script id="page-configurations">
   // https://hexo.io/docs/variables.html
   CONFIG.page = {
     sidebar: "",
-    isHome : true,
-    isPost : false
+    isHome : false,
+    isPost : true
   };
 </script>
 
-  <title>花落闲谈</title>
+  <title>Tensorboard的smooth效果 | 花落闲谈</title>
   
 
 
@@ -155,10 +162,10 @@
             
 
   <div class="posts-expand">
-        
+      
   
   
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/03/09/Tensorboard%E7%9A%84smooth%E6%95%88%E6%9E%9C/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -172,8 +179,7 @@
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/03/09/Tensorboard%E7%9A%84smooth%E6%95%88%E6%9E%9C/" class="post-title-link" itemprop="url">Tensorboard的smooth效果</a>
+          Tensorboard的smooth效果
         </h1>
 
         <div class="post-meta">
@@ -207,7 +213,7 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <p>在TensorFlow的可视化工具Tensorboard中，有一个相当好用的选项：设置曲线的smooth参数。我们可以通过增大这个参数的设置，使得原本波动起伏很大的曲线变得平滑，从而得到更加清晰的变化趋势。</p>
+        <p>在TensorFlow的可视化工具Tensorboard中，有一个相当好用的选项：设置曲线的smooth参数。我们可以通过增大这个参数的设置，使得原本波动起伏很大的曲线变得平滑，从而得到更加清晰的变化趋势。</p>
 <p>虽然Tensorboard提供了数据下载的接口（csv、json格式），但是只针对于原始数据，因此在进行绘图时有必要实现跟Tensorboard一样的平滑设置。参照Tensorboard中使用的smooth函数，编写数据处理脚本如下：</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd</span><br><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"><span class="keyword">import</span> os</span><br><span class="line"><span class="keyword">import</span> matplotlib.pyplot <span class="keyword">as</span> plt</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">smooth</span><span class="params">(csv_path, weight=<span class="number">0.85</span>)</span>:</span></span><br><span class="line">    data = pd.read_csv(filepath_or_buffer=csv_path, header=<span class="number">0</span>, names=[<span class="string">'Step'</span>,<span class="string">'Value'</span>], dtype=&#123;<span class="string">'Step'</span>:np.int, <span class="string">'Value'</span>:np.float&#125;)</span><br><span class="line">    scalar = data[<span class="string">'Value'</span>].values</span><br><span class="line">    last = scalar[<span class="number">0</span>]</span><br><span class="line">    smoothed = []</span><br><span class="line">    <span class="keyword">for</span> point <span class="keyword">in</span> scalar:</span><br><span class="line">        smoothed_val = last * weight + (<span class="number">1</span> - weight) * point</span><br><span class="line">        smoothed.append(smoothed_val)</span><br><span class="line">        last = smoothed_val</span><br><span class="line"></span><br><span class="line">    save = pd.DataFrame(&#123;<span class="string">'Step'</span>:data[<span class="string">'Step'</span>].values, <span class="string">'Value'</span>:smoothed&#125;)</span><br><span class="line">    save.to_csv(<span class="string">'smooth_'</span> + csv_path)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">smooth_and_plot</span><span class="params">(csv_path, weight=<span class="number">0.85</span>)</span>:</span></span><br><span class="line">    data = pd.read_csv(filepath_or_buffer=csv_path, header=<span class="number">0</span>, names=[<span class="string">'Step'</span>,<span class="string">'Value'</span>], dtype=&#123;<span class="string">'Step'</span>:np.int, <span class="string">'Value'</span>:np.float&#125;)</span><br><span class="line">    scalar = data[<span class="string">'Value'</span>].values</span><br><span class="line">    last = scalar[<span class="number">0</span>]</span><br><span class="line">    print(type(scalar))</span><br><span class="line">    smoothed = []</span><br><span class="line">    <span class="keyword">for</span> point <span class="keyword">in</span> scalar:</span><br><span class="line">        smoothed_val = last * weight + (<span class="number">1</span> - weight) * point</span><br><span class="line">        smoothed.append(smoothed_val)</span><br><span class="line">        last = smoothed_val</span><br><span class="line"></span><br><span class="line">    <span class="comment"># save = pd.DataFrame(&#123;'Step':data['Step'].values, 'Value':smoothed&#125;)</span></span><br><span class="line">    <span class="comment"># save.to_csv('smooth_' + csv_path)</span></span><br><span class="line"></span><br><span class="line">    steps = data[<span class="string">'Step'</span>].values</span><br><span class="line">    steps = steps.tolist()</span><br><span class="line">    origin = scalar.tolist()</span><br><span class="line"></span><br><span class="line">    fig = plt.figure(<span class="number">1</span>)</span><br><span class="line">    plt.plot(steps, origin, label=<span class="string">'origin'</span>)</span><br><span class="line">    plt.plot(steps, smoothed, label=<span class="string">'smoothed'</span>)</span><br><span class="line">    <span class="comment"># plt.ylim(0, 220) # Tensorboard中会滤除过大的数据，可通过设置坐标最值来实现</span></span><br><span class="line">    plt.legend()</span><br><span class="line">    plt.show()</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__==<span class="string">'__main__'</span>:</span><br><span class="line">    <span class="comment"># smooth('total_loss.csv')</span></span><br><span class="line">    smooth_and_plot(<span class="string">'total_loss.csv'</span>)</span><br></pre></td></tr></table></figure>
 
@@ -220,226 +226,36 @@
 <p>Tensorboard 下Smooth功能探究<br><a href="https://dingguanglei.com/tensorboard-xia-smoothgong-neng-tan-jiu/" target="_blank" rel="noopener">https://dingguanglei.com/tensorboard-xia-smoothgong-neng-tan-jiu/</a></p>
 <p>tensorboard 平滑损失曲线代码_人工智能_Charel_CHEN的博客-CSDN博客<br><a href="https://blog.csdn.net/Charel_CHEN/article/details/80364841" target="_blank" rel="noopener">https://blog.csdn.net/Charel_CHEN/article/details/80364841</a></p>
 
-      
     </div>
 
     
     
     
+
       <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
+          <div class="post-tags">
+              <a href="/tags/Tensorboard-smooth/" rel="tag"># Tensorboard, smooth</a>
+          </div>
 
         
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/03/08/Pytorch%E7%9A%84%E5%A4%8D%E7%8E%B0%E6%80%A7/">
 
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/blog-logo.jpg">
-      <meta itemprop="name" content="chengc">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="花落闲谈">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/03/08/Pytorch%E7%9A%84%E5%A4%8D%E7%8E%B0%E6%80%A7/" class="post-title-link" itemprop="url">Pytorch的复现性</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2020-03-08 01:39:11" itemprop="dateCreated datePublished" datetime="2020-03-08T01:39:11+08:00">2020-03-08</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-03-09 23:04:18" itemprop="dateModified" datetime="2020-03-09T23:04:18+08:00">2020-03-09</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Pytorch%E4%BD%BF%E7%94%A8/" itemprop="url" rel="index"><span itemprop="name">Pytorch使用</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>最近在使用YOLOv3模型来训练KITTI数据集，遇到一个不可避免的问题——可复现性。由于所参考的代码（<a href="https://github.com/DeNA/PyTorch_YOLOv3" target="_blank" rel="noopener">PyTorch_YLOv3</a>）没有做相关的设置，因此也费了些时间去了解和实践。</p>
-<p>官方的指导文件见：<a href="https://pytorch.org/docs/master/notes/randomness.html" target="_blank" rel="noopener">https://pytorch.org/docs/master/notes/randomness.html</a> ，具体而言，需要考虑以下几个方面：</p>
-<ol>
-<li><p>随机种子的设定</p>
-<ul>
-<li><p>Pytorch的种子设置（CPU&amp;GPU）</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">torch.manual_seed(seed)</span><br><span class="line">torch.cuda.manual_seed_all(seed) <span class="comment"># if you are using multi-GPU</span></span><br></pre></td></tr></table></figure>
-</li>
-<li><p>cuDNN的优化设置</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">torch.backends.cudnn.enabled = <span class="literal">False</span></span><br><span class="line">torch.backends.cudnn.benchmark = <span class="literal">False</span></span><br><span class="line">torch.backends.cudnn.deterministic = <span class="literal">True</span></span><br></pre></td></tr></table></figure>
-
-<p>cuDNN使用非确定性算法，能够自动寻找最适合当前配置的高效算法，来达到优化运行效率的问题，可以使用<code>torch.backends.cudnn.enabled = False</code>来进行禁用。当然，禁用后会影响一定的效率。</p>
-</li>
-<li><p>Numpy的种子设置</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">np.random.seed(seed)</span><br></pre></td></tr></table></figure>
-
-<p>对于目标检测等任务来说，经常需要进行数据增强，如随机翻转、多尺度训练等，可以通过设置Numpy的种子来去除非确定性。此外，Pytorch的底层实现中某些模块也调用了Numpy的随机性操作，所以不管是否进行了数据增强操作，都需要设置Numpy的种子。</p>
-</li>
-<li><p>DataLoader的多线程设置</p>
-<p>当DataLoader采用多线程操作时（num_workers &gt; 1），也需要进行随机种子的设置。</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">_init_fn</span><span class="params">()</span>:</span></span><br><span class="line">    np.random.seed(<span class="number">0</span>)</span><br><span class="line">train_loader = DataLoader(data_sets, batch_size=<span class="number">8</span>, shuffle=<span class="literal">True</span>, </span><br><span class="line">                              num_workers=<span class="number">8</span>, worker_init_fn=_init_fn)</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>random模块设置</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">random.seed(seed)</span><br></pre></td></tr></table></figure>
-</li>
-</ul>
-</li>
-<li><p>Pytorch底层实现代码对于非确定性的引入</p>
-<p>在进行了上述种子设定后，代码基本上具备了可重复性，然而目前Pytorch的某些底层实现仍然存在着不确定性，暂时无法得到解决。比如，Pytorch的上采样操作在反向求导时会存在随机性；API所述，PyTorch使用的CUDA实现中，有一部分是原子操作，尤其是<code>atomicAdd</code>，使用这个操作就代表数据不能够并行处理，需要串行处理，使用到<code>atomicAdd</code>之后就会按照不确定的并行加法顺序执行，从而引入了不确定因素。PyTorch中使用到的<code>atomicAdd</code>的方法：</p>
-<p><strong>前向传播时：</strong></p>
-<ul>
-<li>torch.Tensor.index_add_()_</li>
-<li><em>torch.Tensor.scatter_add</em>()</li>
-<li>torch.bincount()</li>
-</ul>
-<p><strong>反向传播时：</strong></p>
-<ul>
-<li>torch.nn.functional.embedding_bag()</li>
-<li>torch.nn.functional.ctc_loss()</li>
-<li>其他pooling，padding, sampling操作</li>
-</ul>
-</li>
-</ol>
-<p>这次在进行YOLOv3（Pytorch版）的训练时，采用的种子设定脚本为：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">setup_seed</span><span class="params">(seed=<span class="number">202003</span>)</span>:</span></span><br><span class="line">    random.seed(seed)</span><br><span class="line">    np.random.seed(seed)</span><br><span class="line">    <span class="comment"># if you are suing GPU</span></span><br><span class="line">    torch.manual_seed(seed)</span><br><span class="line">    torch.cuda.manual_seed_all(seed) <span class="comment"># if you are using multi-GPU</span></span><br><span class="line">    <span class="comment"># for cudnn</span></span><br><span class="line">    torch.backends.cudnn.enabled = <span class="literal">False</span></span><br><span class="line">    torch.backends.cudnn.benchmark = <span class="literal">False</span></span><br><span class="line">    torch.backends.cudnn.deterministic = <span class="literal">True</span></span><br><span class="line">    <span class="comment"># for hash</span></span><br><span class="line">    os.environ[<span class="string">'PYTHONHASHSEED'</span>] = str(seed)</span><br></pre></td></tr></table></figure>
-
-<p>最后一行主要是为了禁止hash随机化，使得实验可复现。但是因为YOLOv3中含有上采样层，所以在进行实验时发现，在训练前期结果可以保持一致性，但随着epoch的增大，也会产生一定的不确定性，取两组训练过程的Loss可视化如下：</p>
-<img src="/images/loss_vis_1.png" width="50%" height="50%">
-<center>两组Loss值对比</center>
-<img src="/images/loss_vis_2.png" width="50%" height="50%">
-
-<center>两组Loss差值对比</center>
-可见随着训练的进行，结果难以复现，但最终mAP差异保持在1%左右即可。
-
-<hr>
-<p><em>Ref：</em></p>
-<p>PyTorch中模型的可复现性 - 知乎<br><a href="https://zhuanlan.zhihu.com/p/109166845" target="_blank" rel="noopener">https://zhuanlan.zhihu.com/p/109166845</a></p>
-<p>Deterministic Pytorch： pytorch如何保证可重复性 - 知乎<br><a href="https://zhuanlan.zhihu.com/p/81039955" target="_blank" rel="noopener">https://zhuanlan.zhihu.com/p/81039955</a></p>
-<p>Set All Seed But Result Is Non Deterministic - PyTorch Forums<br><a href="https://discuss.pytorch.org/t/set-all-seed-but-result-is-non-deterministic/27494" target="_blank" rel="noopener">https://discuss.pytorch.org/t/set-all-seed-but-result-is-non-deterministic/27494</a></p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
 
         
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/03/05/hello-world/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/blog-logo.jpg">
-      <meta itemprop="name" content="chengc">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="花落闲谈">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/03/05/hello-world/" class="post-title-link" itemprop="url">Hello World</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2020-03-05 18:33:43" itemprop="dateCreated datePublished" datetime="2020-03-05T18:33:43+08:00">2020-03-05</time>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>Welcome to <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="noopener">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="noopener">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="noopener">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">"My New Post"</span></span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="noopener">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="noopener">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="noopener">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/one-command-deployment.html" target="_blank" rel="noopener">Deployment</a></p>
-
-      
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/03/08/Pytorch%E7%9A%84%E5%A4%8D%E7%8E%B0%E6%80%A7/" rel="prev" title="Pytorch的复现性">
+      <i class="fa fa-chevron-left"></i> Pytorch的复现性
+    </a></div>
+      <div class="post-nav-item"></div>
     </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
       </footer>
+    
   </article>
   
   
   
 
   </div>
-
-  
-
 
 
           </div>
