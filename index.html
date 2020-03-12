@@ -159,6 +159,97 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/03/12/Python%E5%8F%91%E9%80%81%E7%9F%AD%E4%BF%A1/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/blog-logo.jpg">
+      <meta itemprop="name" content="chengc">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="花落闲谈">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/03/12/Python%E5%8F%91%E9%80%81%E7%9F%AD%E4%BF%A1/" class="post-title-link" itemprop="url">Python发送短信</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2020-03-12 18:54:00 / 修改时间：19:12:06" itemprop="dateCreated datePublished" datetime="2020-03-12T18:54:00+08:00">2020-03-12</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Python/" itemprop="url" rel="index"><span itemprop="name">Python</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>在进行深度学习炼金时，经常需要花费很长一段时间等待结果，因此想变主动为被动，让程序在运行结束时将结果通过短信主动发送到我的手机上，省得我每次都要通过ssh连接服务器进行查看。</p>
+<p>搜索了一下教程，找到两个心仪的解决方案：Twilio、腾讯云短信，基本套路是通过调用Python接口进行短信转发。Twilio提供500条免费短信，腾讯云短信则提供100条，不过腾讯云在1万条内的价格是5分钱一条，尚可接受。目前的解决方案是先用完Twilio的500条后再转战腾讯云。</p>
+<ul>
+<li><p>Twilio</p>
+<ol>
+<li><p>注册</p>
+<p>网址为：<a href="https://www.twilio.com/" target="_blank" rel="noopener">https://www.twilio.com</a>，教程见：<a href="https://www.cnblogs.com/pythoncircle/p/11790463.html" target="_blank" rel="noopener">https://www.cnblogs.com/pythoncircle/p/11790463.html</a></p>
+</li>
+<li><p>API调用模板（简单）</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Download the helper library from https://www.twilio.com/docs/python/install</span></span><br><span class="line"><span class="keyword">from</span> twilio.rest <span class="keyword">import</span> Client</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># Your Account Sid and Auth Token from twilio.com/console</span></span><br><span class="line"><span class="comment"># DANGER! This is insecure. See http://twil.io/secure</span></span><br><span class="line">account_sid = <span class="string">'your_acco_sid'</span></span><br><span class="line">auth_token = <span class="string">'your_auth_token'</span></span><br><span class="line">client = Client(account_sid, auth_token)</span><br><span class="line"></span><br><span class="line">message = client.messages \</span><br><span class="line">                .create(</span><br><span class="line">                     body=<span class="string">"Join Earth's mightiest heroes. Like Kevin Bacon."</span>,</span><br><span class="line">                     from_=<span class="string">'+150XXXXXXXXX'</span>,</span><br><span class="line">                     to=<span class="string">'+86XXXXXXXXXXX'</span></span><br><span class="line">                 )</span><br><span class="line"></span><br><span class="line">print(message.sid)</span><br></pre></td></tr></table></figure>
+
+<p>需替换自己的account_sid，auth_token，获得的虚拟号码（from_），发送的号码（to），信息（body），运行前安装twilio：<code>pip install twilio</code>。</p>
+</li>
+<li><p>实际上没有500条，因为原始赠送金额是15美元，获得虚拟号码及部署项目时会用掉1.056美元，不过可忽略不计，每条短信价格是0.28美元。</p>
+</li>
+</ol>
+</li>
+<li><p>腾讯云短信</p>
+<ul>
+<li><a href="https://cloud.tencent.com/document/product/382" target="_blank" rel="noopener">https://cloud.tencent.com/document/product/382</a></li>
+<li>待测试</li>
+</ul>
+</li>
+</ul>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/03/09/Tensorboard%E7%9A%84smooth%E6%95%88%E6%9E%9C/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -435,20 +526,20 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">2</span>
+          <span class="site-state-item-count">3</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
           
-        <span class="site-state-item-count">2</span>
+        <span class="site-state-item-count">3</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">4</span>
+        <span class="site-state-item-count">5</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
